@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from OD_setup import *
 
-def R(N,n):
+def R_gene(N,n):
     R_0 = np.zeros((n,N))
     p = int(N**0.5 - n**0.5 + 1)
     R_init = [int(N**0.5*i + j) for i in range(p) for j in range(p)]
@@ -46,3 +46,26 @@ def denoise_show(x_list):
         plt.subplot(1,3,i+1)
         plt.imshow(x_t)
         plt.gray()
+
+def R(X,i,j,n):
+    return X[i:i+n,j:j+n]
+
+    
+def R_T(x,i,j,N):
+    n = x.shape[0]
+    C = np.zeros((N,N))
+    C[i:i+n,j:j+n] = x
+    return C
+
+
+def R_T_R(N,n):
+    A = np.ones((N,N))
+    B = np.zeros((N,N))
+    for i in range(N-n+1):
+        for j in range(N-n+1):
+            RA = R(A,i,j,n)
+            R_T_RA = R_T(RA,i,j,N)
+            B += R_T_RA
+    B = B.reshape(N**2,1)
+    return B
+
