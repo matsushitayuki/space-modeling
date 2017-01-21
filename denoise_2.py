@@ -29,7 +29,7 @@ X_noisy = np.array(X)
 X_list.append(X_noisy)
 
 RTR = R_T_R(N,n)
-RTR += mu+np.ones((N**2,1))
+RTR += mu*np.ones((N**2,1))
 inv = 1/RTR
 
 for i in range(5):
